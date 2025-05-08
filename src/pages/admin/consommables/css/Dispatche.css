@@ -1,0 +1,299 @@
+.page-dispatche {
+  padding: 1.5rem;
+  animation: fadeIn 0.5s ease;
+}
+
+.animation-dispatche {
+  animation: fadeIn 0.5s ease;
+}
+
+.titre-page {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.section-dispatche {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.entete-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.entete-section h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.actions-entete {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.champ-recherche-wrapper {
+  position: relative;
+}
+
+.icone-recherche {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.champ-filtre {
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  width: 250px;
+}
+
+.ajout-agence {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.champ-nouvelle-agence {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  width: 200px;
+}
+
+.bouton-ajouter-agence {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #0099cc;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bouton-ajouter-agence:hover {
+  background-color: #007aa3;
+}
+
+.bouton-ajouter-agence:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.bouton-supprimer-liste {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fff0f0;
+  color: #cc0000;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bouton-supprimer-liste:hover {
+  background-color: #ffe0e0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease;
+}
+
+.dropdown-header {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.bouton-ajouter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bouton-ajouter:hover {
+  background-color: #a00000;
+}
+
+.tableau-dispatche-wrapper {
+  overflow-x: auto;
+}
+
+.tableau-dispatche {
+  width: 100%;
+}
+
+.tableau-dispatche table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableau-dispatche th,
+.tableau-dispatche td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tableau-dispatche th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.th-agence {
+  min-width: 100px;
+  text-align: center;
+}
+
+.tableau-dispatche tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.input-consommation {
+  width: 60px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.input-consommation:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.actions-cellule {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bouton-modifier,
+.bouton-supprimer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bouton-modifier {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.bouton-modifier:hover {
+  background-color: #e0e0e0;
+}
+
+.bouton-modifier.actif {
+  background-color: #0099cc;
+  color: white;
+}
+
+.bouton-supprimer {
+  background-color: #fff0f0;
+  color: #cc0000;
+}
+
+.bouton-supprimer:hover {
+  background-color: #ffe0e0;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .entete-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions-entete {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .champ-filtre {
+    width: 100%;
+  }
+}

@@ -1,0 +1,489 @@
+.imstock-container {
+  padding: 1.5rem;
+  animation: fadeIn 0.5s ease;
+}
+
+.page-title {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.imstock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.imstock-actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: #a00000;
+}
+
+.search-bar {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.imstock-table-container {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.imstock-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.imstock-table th,
+.imstock-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.imstock-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.imstock-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.code-barre-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-barre-icon {
+  color: #666;
+}
+
+.etat-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.etat-badge.etat-bon {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+
+.etat-badge.etat-moyen {
+  background-color: rgba(255, 152, 0, 0.1);
+  color: #ff9800;
+}
+
+.etat-badge.etat-mauvais {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-view,
+.btn-edit,
+.btn-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-view {
+  background-color: #e3f2fd;
+  color: #2196f3;
+}
+
+.btn-view:hover {
+  background-color: #bbdefb;
+}
+
+.btn-edit {
+  background-color: #e8f5e9;
+  color: #4caf50;
+}
+
+.btn-edit:hover {
+  background-color: #c8e6c9;
+}
+
+.btn-delete {
+  background-color: #ffebee;
+  color: #f44336;
+}
+
+.btn-delete:hover {
+  background-color: #ffcdd2;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenu {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-contenu h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.formulaire-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.groupe-champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.groupe-champ label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.groupe-champ input,
+.groupe-champ select {
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-with-button input {
+  flex: 1;
+}
+
+.btn-regenerate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 0 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-regenerate:hover {
+  background-color: #e0e0e0;
+}
+
+.actions-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.bouton-annuler {
+  padding: 0.75rem 1.5rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bouton-sauvegarder {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bouton-sauvegarder:hover {
+  background-color: #a00000;
+}
+
+.bouton-sauvegarder:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Alerte styles */
+.alerte-flottante {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 9999;
+  max-width: 400px;
+  transform: translateX(120%);
+  transition: transform 0.3s ease-out;
+}
+
+.alerte-flottante.visible {
+  transform: translateX(0);
+}
+
+.alerte-flottante.disparition {
+  transform: translateX(120%);
+}
+
+.alerte-succes {
+  border-left: 4px solid #4caf50;
+}
+
+.alerte-erreur {
+  border-left: 4px solid #f44336;
+}
+
+.icone-alerte {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.alerte-succes .icone-alerte {
+  color: #4caf50;
+}
+
+.alerte-erreur .icone-alerte {
+  color: #f44336;
+}
+
+.texte-alerte {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.fermer-alerte {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fermer-alerte:hover {
+  color: #6b7280;
+}
+
+/* Alerte de confirmation */
+.alerte-confirmation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.alerte-confirmation.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.alerte-contenu {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.alerte-confirmation.visible .alerte-contenu {
+  transform: scale(1);
+}
+
+.alerte-titre {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.alerte-message {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.alerte-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.bouton-annuler-alerte {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.bouton-annuler-alerte:hover {
+  background-color: #f5f5f5;
+}
+
+.bouton-confirmer-alerte {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.bouton-confirmer-alerte:hover {
+  background-color: #e53935;
+}
+
+@media (max-width: 768px) {
+  .imstock-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .imstock-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .search-bar {
+    max-width: none;
+    width: 100%;
+  }
+
+  .imstock-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
