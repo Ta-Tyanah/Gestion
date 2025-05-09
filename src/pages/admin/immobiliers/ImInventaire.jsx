@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, FileDown, Plus } from "lucide-react"
+import { Search, FileDown } from "lucide-react"
 import "./css/ImInventaire.css"
 
 function ImInventaire() {
@@ -15,16 +15,6 @@ function ImInventaire() {
   const [westernUnions, setWesternUnions] = useState([])
   const [directions, setDirections] = useState([])
   const [inventaireData, setInventaireData] = useState([])
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [newItem, setNewItem] = useState({
-    codeArticle: "",
-    designation: "",
-    codeBarre: "",
-    prixAchat: 0,
-    typeImmobilier: "",
-    dateAcquisition: "",
-    statut: "actif",
-  })
 
   // Générer les options pour les années
   const genererOptionsAnnees = () => {
@@ -34,13 +24,6 @@ function ImInventaire() {
       annees.push(i)
     }
     return annees.reverse()
-  }
-
-  // Générer un code barre aléatoire
-  const genererCodeBarre = () => {
-    return Math.floor(Math.random() * 10000000000000)
-      .toString()
-      .padStart(13, "0")
   }
 
   // Simuler un chargement lors du montage du composant
@@ -77,74 +60,6 @@ function ImInventaire() {
       window.removeEventListener("dispatche:agence-ajoutee", handleAgenceAjoutee)
     }
   }, [])
-
-  // Fonction pour créer un nouvel inventaire
-  const creerNouvelInventaire = () => {
-    setShowAddModal(true)
-    // Générer automatiquement un code barre
-    setNewItem({
-      ...newItem,
-      codeBarre: genererCodeBarre(),
-    })
-  }
-
-  // Fonction pour ajouter un nouvel article à l'inventaire
-  const ajouterArticle = () => {
-    if (!newItem.designation || !newItem.codeArticle) {
-      alert("Veuillez saisir le code article et la désignation pour l'article.")
-      return
-    }
-
-    const nouvelArticle = {
-      id: inventaireData.length > 0 ? Math.max(...inventaireData.map((item) => item.id)) + 1 : 1,
-      codeArticle: newItem.codeArticle,
-      designation: newItem.designation,
-      codeBarre: newItem.codeBarre,
-      prixAchat: Number.parseFloat(newItem.prixAchat) || 0,
-      typeImmobilier: newItem.typeImmobilier,
-      dateAcquisition: newItem.dateAcquisition,
-      statut: newItem.statut,
-      stockInitial: {
-        quantite: 1,
-        cmup: Number.parseFloat(newItem.prixAchat) || 0,
-        montant: Number.parseFloat(newItem.prixAchat) || 0,
-      },
-      entrees: {
-        quantite: 0,
-        pu: Number.parseFloat(newItem.prixAchat) || 0,
-        montant: 0,
-      },
-      quantiteDisponible: 1,
-      consommationAgence: agences.map((agence) => ({ agenceId: agence.id, quantite: 0 })),
-      consommationWU: westernUnions.map((wu) => ({ wuId: wu.id, quantite: 0 })),
-      consommationDir: directions.map((dir) => ({ dirId: dir.id, quantite: 0 })),
-      totalConsommation: {
-        quantite: 0,
-        cmup: Number.parseFloat(newItem.prixAchat) || 0,
-        montant: 0,
-      },
-      stockFinal: {
-        quantite: 1,
-        cmup: Number.parseFloat(newItem.prixAchat) || 0,
-        montant: Number.parseFloat(newItem.prixAchat) || 0,
-      },
-    }
-
-    setInventaireData([...inventaireData, nouvelArticle])
-    setNewItem({
-      codeArticle: "",
-      designation: "",
-      codeBarre: "",
-      prixAchat: 0,
-      typeImmobilier: "",
-      dateAcquisition: "",
-      statut: "actif",
-    })
-    setShowAddModal(false)
-
-    // Afficher un message de succès
-    afficherMessage("Article ajouté avec succès!", "succes")
-  }
 
   // Fonction pour exporter en Excel
   const exporterEnExcel = () => {
@@ -225,9 +140,6 @@ function ImInventaire() {
       <div className="inventaire-header">
         <h2>Inventaire des immobiliers</h2>
         <div className="inventaire-actions">
-          <button className="btn-primary" onClick={creerNouvelInventaire}>
-            <Plus size={16} /> Nouvel article
-          </button>
           <button className="btn-secondary" onClick={() => setShowHistorique(!showHistorique)}>
             {showHistorique ? "Masquer l'historique" : "Historique"}
           </button>
@@ -346,6 +258,7 @@ function ImInventaire() {
                   <th>Prix d'achat</th>
                   <th>Type d'immobilier</th>
                   <th>Date d'acquisition</th>
+                  <th>Quantité</th> 
                   <th>Statut</th>
                   <th>Actions</th>
                 </tr>
@@ -360,6 +273,7 @@ function ImInventaire() {
                       <td>{item.prixAchat.toLocaleString()} FCFA</td>
                       <td>{item.typeImmobilier}</td>
                       <td>{item.dateAcquisition}</td>
+                      <td>{item.quantite || 1}</td> 
                       <td>
                         <span className={`statut-badge ${item.statut}`}>
                           {item.statut === "actif" ? "Actif" : "Amorti"}
@@ -420,8 +334,8 @@ function ImInventaire() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="8" className="no-data">
-                      Aucun article trouvé. Utilisez le bouton "Nouvel article" pour en ajouter.
+                    <td colSpan="9" className="no-data">
+                      Aucun article trouvé. Utilisez la page "Stock" pour ajouter des articles.
                     </td>
                   </tr>
                 )}
@@ -429,117 +343,6 @@ function ImInventaire() {
             </table>
           </div>
         </>
-      )}
-
-      {/* Modal d'ajout d'article */}
-      {showAddModal && (
-        <div className="modal-overlay">
-          <div className="modal-contenu">
-            <h2>Ajouter un nouvel article</h2>
-            <div className="formulaire-modal">
-              <div className="groupe-champ">
-                <label htmlFor="codeArticle">Code Article</label>
-                <input
-                  id="codeArticle"
-                  name="codeArticle"
-                  type="text"
-                  value={newItem.codeArticle}
-                  onChange={(e) => setNewItem({ ...newItem, codeArticle: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="groupe-champ">
-                <label htmlFor="designation">Désignation</label>
-                <input
-                  id="designation"
-                  name="designation"
-                  type="text"
-                  value={newItem.designation}
-                  onChange={(e) => setNewItem({ ...newItem, designation: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="groupe-champ">
-                <label htmlFor="codeBarre">Code Barre</label>
-                <input
-                  id="codeBarre"
-                  name="codeBarre"
-                  type="text"
-                  value={newItem.codeBarre}
-                  onChange={(e) => setNewItem({ ...newItem, codeBarre: e.target.value })}
-                  readOnly
-                />
-                <small className="info-text">Généré automatiquement</small>
-              </div>
-              <div className="groupe-champ">
-                <label htmlFor="prixAchat">Prix d'achat</label>
-                <input
-                  id="prixAchat"
-                  name="prixAchat"
-                  type="number"
-                  min="0"
-                  value={newItem.prixAchat}
-                  onChange={(e) => setNewItem({ ...newItem, prixAchat: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="groupe-champ">
-                <label htmlFor="typeImmobilier">Type d'immobilier</label>
-                <select
-                  id="typeImmobilier"
-                  name="typeImmobilier"
-                  value={newItem.typeImmobilier}
-                  onChange={(e) => setNewItem({ ...newItem, typeImmobilier: e.target.value })}
-                  required
-                >
-                  <option value="">Sélectionner un type</option>
-                  <option value="Mobilier">Mobilier</option>
-                  <option value="Matériel informatique">Matériel informatique</option>
-                  <option value="Matériel de bureau">Matériel de bureau</option>
-                  <option value="Véhicule">Véhicule</option>
-                  <option value="Bâtiment">Bâtiment</option>
-                  <option value="Autre">Autre</option>
-                </select>
-              </div>
-              <div className="groupe-champ">
-                <label htmlFor="dateAcquisition">Date d'acquisition</label>
-                <input
-                  id="dateAcquisition"
-                  name="dateAcquisition"
-                  type="date"
-                  value={newItem.dateAcquisition}
-                  onChange={(e) => setNewItem({ ...newItem, dateAcquisition: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="groupe-champ">
-                <label htmlFor="statut">Statut</label>
-                <select
-                  id="statut"
-                  name="statut"
-                  value={newItem.statut}
-                  onChange={(e) => setNewItem({ ...newItem, statut: e.target.value })}
-                  required
-                >
-                  <option value="actif">Actif</option>
-                  <option value="amorti">Amorti</option>
-                </select>
-              </div>
-              <div className="actions-modal">
-                <button className="bouton-annuler" onClick={() => setShowAddModal(false)}>
-                  Annuler
-                </button>
-                <button
-                  className="bouton-sauvegarder"
-                  onClick={ajouterArticle}
-                  disabled={!newItem.designation || !newItem.codeArticle}
-                >
-                  Ajouter
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   )

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import {
   Search,
   Filter,
@@ -13,19 +14,27 @@ import {
   Building,
   Mail,
   Phone,
+  Send,
+  Edit,
+  MessageSquare,
 } from "lucide-react"
 import "./css/gestion.css"
 
 function GestionUtilisateurs() {
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState("")
   const [filterType, setFilterType] = useState("Tous les types")
   const [selectedUser, setSelectedUser] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [showAddUserModal, setShowAddUserModal] = useState(false)
+  const [showContactModal, setShowContactModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [showDispatcheModal, setShowDispatcheModal] = useState(false)
   const [nouvelleAgence, setNouvelleAgence] = useState("")
   const [nouveauRole, setNouveauRole] = useState("Gestionnaire d'agence")
   const [nouveauNom, setNouveauNom] = useState("")
   const [nouveauEmail, setNouveauEmail] = useState("")
+  const [messageContact, setMessageContact] = useState("")
   const [loading, setLoading] = useState(true)
 
   // Données initiales des utilisateurs
@@ -108,20 +117,65 @@ function GestionUtilisateurs() {
     afficherMessage(`Utilisateur ${nouveauNom} ajouté avec succès!`, "succes")
   }
 
+  // Fonction pour envoyer un message à l'utilisateur
+  const envoyerMessage = () => {
+    if (!messageContact.trim()) {
+      afficherMessage("Veuillez saisir un message", "erreur")
+      return
+    }
+
+    // Simuler l'envoi d'un message
+    console.log(`Message envoyé à ${selectedUser.nom}: ${messageContact}`)
+    setMessageContact("")
+    setShowContactModal(false)
+    afficherMessage(`Message envoyé à ${selectedUser.nom}`, "succes")
+  }
+
+  // Fonction pour modifier l'utilisateur
+  const modifierUtilisateur = () => {
+    // Simuler la modification d'un utilisateur
+    const usersModifies = users.map((user) => {
+      if (user.id === selectedUser.id) {
+        return {
+          ...user,
+          nom: nouveauNom || user.nom,
+          email: nouveauEmail || user.email,
+          agence: nouvelleAgence || user.agence,
+          role: nouveauRole || user.role,
+        }
+      }
+      return user
+    })
+
+    setUsers(usersModifies)
+    setShowEditModal(false)
+    afficherMessage(`Utilisateur ${selectedUser.nom} modifié avec succès!`, "succes")
+  }
+
+  // Fonction pour rediriger vers la page de dispatche
+  const envoyerStock = (type) => {
+    setShowDispatcheModal(false)
+    if (type === "consommables") {
+      navigate("/admin/consommables/dispatche")
+    } else {
+      navigate("/admin/immobiliers/dispatche")
+    }
+  }
+
   // Fonction pour afficher un message
   const afficherMessage = (texte, type) => {
     const messageElement = document.createElement("div")
     messageElement.className = `alerte-flottante alerte-${type}`
     messageElement.innerHTML = `
       <div class="icone-alerte">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
           <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
       </div>
       <div class="texte-alerte">${texte}</div>
       <button class="fermer-alerte">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
@@ -180,6 +234,29 @@ function GestionUtilisateurs() {
   const openUserDetails = (user) => {
     setSelectedUser(user)
     setShowModal(true)
+  }
+
+  // Ouvrir le modal de contact
+  const openContactModal = () => {
+    setMessageContact("")
+    setShowContactModal(true)
+    setShowModal(false)
+  }
+
+  // Ouvrir le modal d'édition
+  const openEditModal = () => {
+    setNouveauNom(selectedUser.nom)
+    setNouveauEmail(selectedUser.email)
+    setNouvelleAgence(selectedUser.agence)
+    setNouveauRole(selectedUser.role)
+    setShowEditModal(true)
+    setShowModal(false)
+  }
+
+  // Ouvrir le modal de dispatche
+  const openDispatcheModal = () => {
+    setShowDispatcheModal(true)
+    setShowModal(false)
   }
 
   // Obtenir les initiales pour l'avatar
@@ -301,6 +378,155 @@ function GestionUtilisateurs() {
                 >
                   Ajouter
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de contact utilisateur */}
+      {showContactModal && selectedUser && (
+        <div className="modal-overlay">
+          <div className="modal-contenu">
+            <div className="modal-header">
+              <h2>Contacter {selectedUser.nom}</h2>
+              <button className="close-modal-btn" onClick={() => setShowContactModal(false)}>
+                &times;
+              </button>
+            </div>
+            <div className="formulaire-modal">
+              <div className="contact-info">
+                <div className="contact-item">
+                  <Mail size={16} />
+                  <span>{selectedUser.email}</span>
+                </div>
+                <div className="contact-item">
+                  <Phone size={16} />
+                  <span>{selectedUser.telephone}</span>
+                </div>
+              </div>
+              <div className="groupe-champ">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  value={messageContact}
+                  onChange={(e) => setMessageContact(e.target.value)}
+                  placeholder="Saisissez votre message ici..."
+                  required
+                ></textarea>
+              </div>
+              <div className="actions-modal">
+                <button className="bouton-annuler" onClick={() => setShowContactModal(false)}>
+                  Annuler
+                </button>
+                <button className="bouton-sauvegarder" onClick={envoyerMessage} disabled={!messageContact.trim()}>
+                  <MessageSquare size={16} /> Envoyer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal d'édition utilisateur */}
+      {showEditModal && selectedUser && (
+        <div className="modal-overlay">
+          <div className="modal-contenu">
+            <div className="modal-header">
+              <h2>Modifier {selectedUser.nom}</h2>
+              <button className="close-modal-btn" onClick={() => setShowEditModal(false)}>
+                &times;
+              </button>
+            </div>
+            <div className="formulaire-modal">
+              <div className="groupe-champ">
+                <label htmlFor="edit-nom">
+                  <User size={16} /> Nom complet
+                </label>
+                <input
+                  id="edit-nom"
+                  name="edit-nom"
+                  type="text"
+                  value={nouveauNom}
+                  onChange={(e) => setNouveauNom(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="groupe-champ">
+                <label htmlFor="edit-email">
+                  <Mail size={16} /> Email
+                </label>
+                <input
+                  id="edit-email"
+                  name="edit-email"
+                  type="email"
+                  value={nouveauEmail}
+                  onChange={(e) => setNouveauEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="groupe-champ">
+                <label htmlFor="edit-agence">
+                  <Building size={16} /> Agence
+                </label>
+                <input
+                  id="edit-agence"
+                  name="edit-agence"
+                  type="text"
+                  value={nouvelleAgence}
+                  onChange={(e) => setNouvelleAgence(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="groupe-champ">
+                <label htmlFor="edit-role">Rôle</label>
+                <select
+                  id="edit-role"
+                  name="edit-role"
+                  value={nouveauRole}
+                  onChange={(e) => setNouveauRole(e.target.value)}
+                  required
+                >
+                  <option value="Gestionnaire d'agence">Gestionnaire d'agence</option>
+                  <option value="Responsable Western Union">Responsable Western Union</option>
+                  <option value="Directeur régional">Directeur régional</option>
+                </select>
+              </div>
+              <div className="actions-modal">
+                <button className="bouton-annuler" onClick={() => setShowEditModal(false)}>
+                  Annuler
+                </button>
+                <button className="bouton-sauvegarder" onClick={modifierUtilisateur}>
+                  <Edit size={16} /> Enregistrer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de choix de dispatche */}
+      {showDispatcheModal && selectedUser && (
+        <div className="modal-overlay">
+          <div className="modal-contenu">
+            <div className="modal-header">
+              <h2>Envoyer du stock à {selectedUser.nom}</h2>
+              <button className="close-modal-btn" onClick={() => setShowDispatcheModal(false)}>
+                &times;
+              </button>
+            </div>
+            <div className="dispatche-options">
+              <div className="dispatche-option" onClick={() => envoyerStock("consommables")}>
+                <Package size={48} />
+                <h3>Consommables</h3>
+                <p>Envoyer des articles consommables</p>
+              </div>
+              <div className="dispatche-option" onClick={() => envoyerStock("immobiliers")}>
+                <Building size={48} />
+                <h3>Immobiliers</h3>
+                <p>Envoyer des biens immobiliers</p>
               </div>
             </div>
           </div>
@@ -469,6 +695,10 @@ function GestionUtilisateurs() {
 
               <div className="stock-details">
                 <h3>Détails du stock</h3>
+                <div className="stock-tabs">
+                  <button className="tab-button active">Consommables</button>
+                  <button className="tab-button">Immobiliers</button>
+                </div>
                 <table className="stock-table">
                   <thead>
                     <tr>
@@ -506,9 +736,15 @@ function GestionUtilisateurs() {
               </div>
 
               <div className="user-actions-footer">
-                <button className="action-btn send-stock">Envoyer du stock</button>
-                <button className="action-btn contact-user">Contacter l'utilisateur</button>
-                <button className="action-btn edit-user">Modifier l'utilisateur</button>
+                <button className="action-btn send-stock" onClick={openDispatcheModal}>
+                  <Send size={16} /> Envoyer du stock
+                </button>
+                <button className="action-btn contact-user" onClick={openContactModal}>
+                  <MessageSquare size={16} /> Contacter l'utilisateur
+                </button>
+                <button className="action-btn edit-user" onClick={openEditModal}>
+                  <Edit size={16} /> Modifier l'utilisateur
+                </button>
               </div>
             </div>
           </div>

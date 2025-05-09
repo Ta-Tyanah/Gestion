@@ -101,7 +101,7 @@ function LoginUser() {
               </button>
             </form>
 
-            <div className="auth-switch">
+            {/* <div className="auth-switch">
               <p>Vous n'avez pas de compte?</p>
               <div className="auth-actions">
                 <Link to="/auth/register" className="btn-signup">
@@ -111,7 +111,7 @@ function LoginUser() {
                   Admin
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

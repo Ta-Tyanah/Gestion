@@ -16,6 +16,7 @@ function ImStock() {
     prixAchat: "",
     typeImmobilier: "",
     dateAcquisition: new Date().toISOString().split("T")[0],
+    quantite: "1", // Ajout du champ quantité
   })
 
   // Tableau vide pour les immobiliers (à remplir avec des données réelles)
@@ -71,6 +72,34 @@ function ImStock() {
       .code-barre-value {
         font-family: monospace;
       }
+
+      /* Amélioration du scroll */
+      .imstock-table-container {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+        border-radius: 8px;
+      }
+      
+      .imstock-table-container::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+      }
+      
+      .imstock-table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      
+      .imstock-table-container::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+      }
+      
+      .imstock-table-container::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
     `
     document.head.appendChild(style)
 
@@ -107,6 +136,7 @@ function ImStock() {
       prixAchat: "",
       typeImmobilier: "",
       dateAcquisition: new Date().toISOString().split("T")[0],
+      quantite: "1", // Valeur par défaut
     })
     setModalOuvert(true)
   }
@@ -121,6 +151,7 @@ function ImStock() {
       prixAchat: immobilier.prixAchat.toString(),
       typeImmobilier: immobilier.typeImmobilier,
       dateAcquisition: immobilier.dateAcquisition,
+      quantite: immobilier.quantite.toString(),
     })
     setModalOuvert(true)
   }
@@ -161,6 +192,7 @@ function ImStock() {
             prixAchat: Number.parseFloat(nouvelImmobilier.prixAchat),
             typeImmobilier: nouvelImmobilier.typeImmobilier,
             dateAcquisition: nouvelImmobilier.dateAcquisition,
+            quantite: Number.parseInt(nouvelImmobilier.quantite),
           }
         }
         return item
@@ -178,6 +210,7 @@ function ImStock() {
         prixAchat: Number.parseFloat(nouvelImmobilier.prixAchat),
         typeImmobilier: nouvelImmobilier.typeImmobilier,
         dateAcquisition: nouvelImmobilier.dateAcquisition,
+        quantite: Number.parseInt(nouvelImmobilier.quantite),
         etat: "Bon", // Par défaut
       }
 
@@ -341,6 +374,7 @@ function ImStock() {
               <th>Prix d'achat</th>
               <th>Type d'immobilier</th>
               <th>Date d'acquisition</th>
+              <th>Quantité</th> {/* Nouvelle colonne */}
               <th>État</th>
               <th>Actions</th>
             </tr>
@@ -358,6 +392,7 @@ function ImStock() {
                   <td>{formaterPrix(item.prixAchat)} Ar</td>
                   <td>{item.typeImmobilier}</td>
                   <td>{item.dateAcquisition}</td>
+                  <td>{item.quantite || 1}</td> {/* Affichage de la quantité */}
                   <td>
                     <span className={`etat-badge etat-${item.etat.toLowerCase()}`}>{item.etat}</span>
                   </td>
@@ -373,7 +408,7 @@ function ImStock() {
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="no-data">
+                <td colSpan="9" className="no-data">
                   Aucun immobilier trouvé. Utilisez le bouton "Ajouter un bien" pour en créer un.
                 </td>
               </tr>
@@ -472,6 +507,19 @@ function ImStock() {
                 />
               </div>
 
+              <div className="groupe-champ">
+                <label htmlFor="quantite">Quantité</label>
+                <input
+                  id="quantite"
+                  name="quantite"
+                  type="number"
+                  min="1"
+                  value={nouvelImmobilier.quantite}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
               <div className="actions-modal">
                 <button className="bouton-annuler" onClick={fermerModal}>
                   Annuler
@@ -485,7 +533,8 @@ function ImStock() {
                     !nouvelImmobilier.codeBarre ||
                     !nouvelImmobilier.prixAchat ||
                     !nouvelImmobilier.typeImmobilier ||
-                    !nouvelImmobilier.dateAcquisition
+                    !nouvelImmobilier.dateAcquisition ||
+                    !nouvelImmobilier.quantite
                   }
                 >
                   <Save size={16} /> Sauvegarder
