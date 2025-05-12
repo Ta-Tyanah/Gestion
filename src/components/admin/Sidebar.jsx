@@ -24,7 +24,7 @@ function Sidebar({ isOpen }) {
     <aside className={`app-sidebar ${isOpen ? "open" : "closed"}`}>
       <div className="sidebar-header">
         <div className="logo">
-          <span src="/src/assets/stock.jpg" alt="CEM Logo" className="logo-large" ></span>
+          <span src="src/assets/stock.jpg" alt="CEM Logo" className="logo-large" ></span>
           <span className="logo-text">Gestion Stock</span>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom"
 import LoadingOverlay from "../components/LoadingOverlay"
 import "./Layout.css"
 
-function AdminLayout({ children, onLogout }) {
+function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
